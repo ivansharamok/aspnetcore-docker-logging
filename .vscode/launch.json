@@ -20,16 +20,21 @@
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Production",
                 "ASPNETCORE_DETAILEDERRORS": "1",
+                // must set to get around HTTPS cert error
                 "ASPNETCORE_URLS": "http://+:80"
-            }
-            // "ports": [
-            //     "hostPort": 5002,
-            //     "containerPort": 80
-            // ]
+            },
+            "ports": [
+                {
+                    "hostPort": 5002,
+                    "containerPort": 80
+                }
+            ]
             // "volumes": [
+                // {
             //   "localPath": "~/",
             //   "containerPath": "/vol1",
             //   "permissions": "ro|rw"
+                // }
             // ]
             }
         },
