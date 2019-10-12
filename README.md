@@ -4,7 +4,7 @@ Example of ASP.NET Core app with container logging.
 
 ## create ASP.NET Core app
 
-To create a new app exec this line:
+you can create a new ASP.NET Core app using `dotnet` CLI:
 
 ```bash
 dotnet new web -o src/ -n aspnetcore-docker-logging
@@ -58,8 +58,6 @@ kubectl create -f deployment.yml
 # verify that app runs on exposed NodePort
 curl http://localhost:31000
 ```
-
->Make sure to set `ASPNETCORE_ENVIRONMENT` environment variable to `Kubernetes` value to allow the app run in the container on Kube.
 
 ## debug the app in VS Code
 
