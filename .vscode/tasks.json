@@ -1,0 +1,100 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/src/aspnetcore-docker-logging.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+              },
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "publish",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "publish",
+                "${workspaceFolder}/src/aspnetcore-docker-logging.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "watch",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "watch",
+                "run",
+                "${workspaceFolder}/src/aspnetcore-docker-logging.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "docker-build",
+            "command": "docker",
+            "type": "shell",
+            "args": [
+              "build",
+              "-t",
+              // prompt for image name and tag
+              "${input:imageName}",
+              // set Dockerfile
+              "-f",
+              "${input:dockerfileName}",
+              // choose whether not to use build cache
+              "${input:buildCache}",
+              // set build context
+              "${input:contextPath}"
+            ],
+            "group": "build",
+            "presentation": {
+              "reveal": "always",
+              "panel": "new"
+            },
+            "problemMatcher": "$msCompile"
+          }      
+    ],
+    "inputs": [
+      {
+        "id": "imageName",
+        "type": "promptString",
+        "description": "image name and tag in format image:tag",
+        "default": "aspnetcore-docker-logging"
+      },
+      {
+        "id": "dockerfileName",
+        "type": "promptString",
+        "description": "Dockerfile name. Default: Dockerfile",
+        "default": "Dockerfile"
+      },
+      {
+        "id": "contextPath",
+        "type": "promptString",
+        "description": "build context path. Default is current dir",
+        "default": "${workspaceFolder}"
+      },
+      {
+        "id": "buildCache",
+        "type": "pickString",
+        "description": "pick whether to use build cache",
+        "options": [
+          "--no-cache",
+          ""
+        ],
+        "default": ""
+      }
+    ]
+}

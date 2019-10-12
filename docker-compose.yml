@@ -1,0 +1,31 @@
+version: '3.7'
+
+services:
+  aspnetcore-logging:
+    networks:
+    - aspnetcore-net
+    
+    image: ${DOCKER_REGISTRY-}aspnetcore-docker-logging
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+    - ASPNETCORE_ENVIRONMENT=Development
+    - ASPNETCORE_DETAILEDERRORS=1
+    ports:
+    - target: 80
+      published: 5002
+    deploy:
+      mode: replicated
+      replicas: 1
+      resources:
+        limits:
+          memory: 50M
+        reservations:
+          memory: 50M
+      placement:
+        constraints:
+        - node.platform.os == linux
+
+networks:
+  aspnetcore-net:

@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aspnetcore-logging
+  labels:
+    app: logging
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: logging
+  template:
+    metadata:
+      labels:
+        app: logging
+    spec:
+      terminationGracePeriodSeconds: 60
+      containers:
+      - name: aspnetcore-logging
+        # adjust image repo to pull from your registry
+        image: aspnetcore-docker-logging
+        env:
+        - name: ASPNETCORE_URLS
+          value: "http://+:80"
+        - name: ASPNETCORE_ENVIRONMENT
+          value: Production
+          # value: Kubernetes
+        ports:
+        - name: http
+          containerPort: 80
+        resources:
+          limits:
+            cpu: 10m
+            memory: 30Mi
+          requests:
+            cpu: 10m
+            memory: 20Mi
+---
+# app service
+apiVersion: v1
+kind: Service
+metadata:
+  name: aspnetcore-logging-svc
+  namespace: default
+  labels:
+    app: logging
+spec:
+  type: NodePort
+  ports:
+  - port: 80
+    targetPort: http
+    nodePort: 31000
+  selector:
+    app: logging
+---
