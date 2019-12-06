@@ -1,0 +1,60 @@
+# deploy to Azure Kubernetes Service (AKS)
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aspnetcore-logging
+  labels:
+    app: logging
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: logging
+  template:
+    metadata:
+      labels:
+        app: logging
+    spec:
+      terminationGracePeriodSeconds: 60
+      containers:
+      - name: aspnetcore-logging
+        # adjust image repo to pull from your registry
+        image: aspnetcore-docker-logging
+        env:
+        - name: ASPNETCORE_URLS
+          value: "http://+:80"
+        - name: ASPNETCORE_ENVIRONMENT
+          value: Production
+          # value: Kubernetes
+        ports:
+        - name: http
+          containerPort: 80
+        resources:
+          limits:
+            cpu: 10m
+            memory: 30Mi
+          requests:
+            cpu: 10m
+            memory: 20Mi
+---
+# expose app to public
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: logging
+  name: aspnetcore-logging-published
+  namespace: default
+spec:
+  externalTrafficPolicy: Cluster
+  ports:
+  - name: 80-tcp
+    # nodePort: 31000
+    port: 80
+    protocol: TCP
+    targetPort: http
+  selector:
+    app: logging
+  sessionAffinity: None
+  type: LoadBalancer
