@@ -3,14 +3,14 @@ name: Build and Push to Docker Hub
 on:
   # trigger on push to master branch but ignore specified paths
   # push:
-  #   branches:
-  #     - master
-  #   paths-ignore:
-  #     - "**/az-*.yml"
+    # branches:
+    #   - master
+    # paths-ignore:
+    #   - "**/*.yml"
   # trigger on pull request for master branch but ignore specified paths
   pull_request:
     paths-ignore:
-      - "**/az-*.yml"
+      - "**/*.yml"
     branches:
       - master
 
@@ -24,15 +24,29 @@ jobs:
         uses: actions/checkout@master
 
       - name: login to Docker Hub
-        uses: azure/container-actions/docker-login@master
+        uses: azure/docker-login@v1
         with:
           login-server: docker.io
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
 
+      - name: print short commit SHA
+        run: |
+          git_hash=$(git rev-parse --short "$GITHUB_SHA")
+          echo "building commit ${{ github.sha }}"
+          echo "short commit SHA '${git_hash}'"
+      
       - name: build and push the image
         env:
           IMAGE: docker.io/ivansharamok/aspnetcore-docker-logging
         run: |
+          IMAGE_LATEST=${IMAGE}:latest
+          export IMAGE=${IMAGE}:$(git rev-parse --short "$GITHUB_SHA")
           docker-compose build
+          docker-compose push
+          # push latest tag
+          docker tag ${IMAGE} ${IMAGE_LATEST}
+          export IMAGE=${IMAGE_LATEST}
+          # docker push didn't work for some reason
+          # docker push ${IMAGE_LATEST}
           docker-compose push
