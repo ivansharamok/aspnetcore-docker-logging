@@ -5,7 +5,8 @@ services:
     networks:
     - aspnetcore-net
     
-    image: ${DOCKER_REGISTRY-}aspnetcore-docker-logging
+    image: ${IMAGE}
+    # image: ${IMAGE_REGISTRY}/${IMAGE_NAMESPACE}/aspnetcore-docker-logging
     build:
       context: .
       dockerfile: Dockerfile
