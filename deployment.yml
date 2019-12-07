@@ -19,7 +19,7 @@ spec:
       containers:
       - name: aspnetcore-logging
         # adjust image repo to pull from your registry
-        image: aspnetcore-docker-logging
+        image: docker.io/ivansharamok/aspnetcore-docker-logging
         env:
         - name: ASPNETCORE_URLS
           value: "http://+:80"
