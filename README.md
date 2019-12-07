@@ -1,5 +1,7 @@
 # aspnetcore-docker-logging
 
+![build status](https://github.com/ivansharamok/aspnetcore-docker-logging/workflows/Build%20and%20Push%20to%20Docker%20Hub/badge.svg)
+
 Example of ASP.NET Core app with container logging.
 
 ## create ASP.NET Core app

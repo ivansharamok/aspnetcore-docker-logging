@@ -5,7 +5,8 @@ services:
     networks:
     - aspnetcore-net
     
-    image: ${DOCKER_REGISTRY-}aspnetcore-docker-logging
+    # variable must be set before using the compose file
+    image: ${IMAGE:-docker.io/ivansharamok/aspnetcore-docker-logging}
     build:
       context: .
       dockerfile: Dockerfile
@@ -14,7 +15,7 @@ services:
     - ASPNETCORE_DETAILEDERRORS=1
     ports:
     - target: 80
-      published: 5002
+      published: 8000
     deploy:
       mode: replicated
       replicas: 1
