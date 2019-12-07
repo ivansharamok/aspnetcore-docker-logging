@@ -2,11 +2,11 @@ name: Build and Push to Docker Hub
 
 on:
   # trigger on push to master branch but ignore specified paths
-  push:
-    branches:
-      - master
-    paths-ignore:
-      - "**/az-*.yml"
+  # push:
+  #   branches:
+  #     - master
+  #   paths-ignore:
+  #     - "**/az-*.yml"
   # trigger on pull request for master branch but ignore specified paths
   pull_request:
     paths-ignore:
