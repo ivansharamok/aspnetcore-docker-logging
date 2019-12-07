@@ -36,6 +36,24 @@ spec:
           requests:
             cpu: 10m
             memory: 20Mi
+        # TODO: create specialized endpoint
+        # readinessProbe:
+        #   httpGet:
+        #     # host: localhost
+        #     path: /
+        #     port: 80
+        #     scheme: HTTP
+        # TODO: create specialized endpoint
+        # livenessProbe:
+        #   httpGet:
+        #     # host: '::'
+        #     path: /
+        #     port: 80
+        #     scheme: HTTP
+        #   initialDelaySeconds: 15
+        #   timeoutSeconds: 5
+        #   periodSeconds: 5
+        #   failureThreshold: 3
 ---
 # app service
 apiVersion: v1
