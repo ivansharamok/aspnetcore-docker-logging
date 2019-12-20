@@ -17,7 +17,7 @@ FROM base AS final
 # good practice to provide medatadata for the image
 # see a good schema to follow at http://label-schema.org/
 LABEL com.sharamok.name="aspnetcore-docker-logging" \
-    com.sharamok.description="ASPNET Core example of writing application logs into container STDOUT/STDERR." \
+    com.sharamok.description="ASPNET Core example web application that writes logs into the container's STDOUT/STDERR." \
     com.sharamok.usage="https://hub.docker.com/repository/docker/ivansharamok/aspnetcore-docker-logging" \
     com.sharamok.docker.build.cmd="docker build -t ivansharamok/aspnetcore-docker-logging -f Dockerfile ." \
     com.sharamok.docker.cmd="docker run --rm -it -p 8000:80 ivansharamok/aspnetcore-docker-logging:latest" \
